@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react'
 import locationService from './services/location'
 import Map from './components/Map'
 import authService from './services/auth'
-//import { Container } from '@mui/material'
+import Container from '@mui/material/Container'
+import Footer from './components/Footer'
+import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone'
+import Box from '@mui/material/Box'
+
 
 function App() {
 
@@ -29,19 +33,26 @@ function App() {
 
   if (location) {
     return (
-      <>
-        <Map location={location.coordinates.reverse()} getInfo={getInfo}/>
-        <footer>
-          <p> Unit: metric | Coordinates: {`${location.coordinates[1]} , ${location.coordinates[0]}`} | Speed: {location.speed} km/h | Height: {location.height}</p>
-        </footer>
-      </>
+      <Container maxWidth={false} disableGutters={true}>
+        <Map coordinates={location.coordinates.reverse()} getInfo={getInfo}/>
+        <Footer coordinates={location.coordinates} speed={location.speed} height={location.height}/>
+      </Container>
     )
   }
   else {
     return (
-      <div>
-        loading icon
-      </div>
+      <Container>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+            width: '100%'
+          }}>
+          <HourglassTopTwoToneIcon sx={{ fontSize: 200 }}/>
+        </Box>
+      </Container>
     )
   }
 }
