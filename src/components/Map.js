@@ -13,7 +13,7 @@ const Map = ({ coordinates, getInfo }) => {
   setTimeout(() => getInfo(), 5000)
 
   return (
-    <MapContainer center={coordinates} zoom={5} scrollWheelZoom={false} style={{ width:'100%', height:'85vh' }}>
+    <MapContainer center={coordinates} zoom={5} scrollWheelZoom={false} style={{ width:'100%', height:'100%' }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

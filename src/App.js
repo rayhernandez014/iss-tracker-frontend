@@ -7,7 +7,6 @@ import Footer from './components/Footer'
 import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone'
 import Box from '@mui/material/Box'
 
-
 function App() {
 
   const [location, setLocation] = useState(null)
@@ -31,11 +30,33 @@ function App() {
     locationService.confKey(result.key)
   }
 
+  const getWindowDimensions = () => {
+    const { innerWidth: width, innerHeight: height } = window
+    return {
+      width,
+      height
+    }
+  }
+
   if (location) {
+    let mapHeight = '85vh'
+    let paperHeight = '15vh'
+    const dimensions = getWindowDimensions()
+    if (dimensions.width < 800){
+      mapHeight = '65vh'
+      paperHeight = '35vh'
+    }
     return (
       <Container maxWidth={false} disableGutters={true}>
-        <Map coordinates={location.coordinates.reverse()} getInfo={getInfo}/>
-        <Footer coordinates={location.coordinates} speed={location.speed} height={location.height}/>
+        <Box
+          sx={{
+            height: mapHeight
+          }}>
+          <Map coordinates={location.coordinates.reverse()} getInfo={getInfo}/>
+        </Box>
+        <Box>
+          <Footer coordinates={location.coordinates} speed={location.speed} height={location.height} paperHeight={paperHeight}/>
+        </Box>
       </Container>
     )
   }
