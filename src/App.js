@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import locationService from './services/location'
 import Map from './components/Map'
+import Bar from './components/Bar'
+import Drawer from './components/Drawer'
 import authService from './services/auth'
 import Container from '@mui/material/Container'
-import Footer from './components/Footer'
 import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone'
 import Box from '@mui/material/Box'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 function App() {
 
@@ -30,33 +32,22 @@ function App() {
     locationService.confKey(result.key)
   }
 
-  const getWindowDimensions = () => {
-    const { innerWidth: width, innerHeight: height } = window
-    return {
-      width,
-      height
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#009688'
+      }
     }
-  }
+  })
 
   if (location) {
-    let mapHeight = '85vh'
-    let paperHeight = '15vh'
-    const dimensions = getWindowDimensions()
-    if (dimensions.width < 800){
-      mapHeight = '65vh'
-      paperHeight = '35vh'
-    }
     return (
       <Container maxWidth={false} disableGutters={true}>
-        <Box
-          sx={{
-            height: mapHeight
-          }}>
+        <ThemeProvider theme={theme}>
+          <Bar />
           <Map coordinates={location.coordinates.reverse()} getInfo={getInfo}/>
-        </Box>
-        <Box>
-          <Footer coordinates={location.coordinates} speed={location.speed} height={location.height} paperHeight={paperHeight}/>
-        </Box>
+          <Drawer coordinates={location.coordinates} speed={location.speed} height={location.height}/>
+        </ThemeProvider>
       </Container>
     )
   }
