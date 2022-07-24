@@ -3,7 +3,6 @@ import locationService from './services/location'
 import Map from './components/Map'
 import Bar from './components/Bar'
 import Drawer from './components/Drawer'
-import authService from './services/auth'
 import Container from '@mui/material/Container'
 import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone'
 import Box from '@mui/material/Box'
@@ -14,22 +13,12 @@ function App() {
   const [location, setLocation] = useState(null)
 
   useEffect( () => {
-    initialize()
-  }, [])
-
-  const initialize = async () => {
-    await getKey()
     getInfo()
-  }
+  }, [])
 
   const getInfo = async () => {
     const result = await locationService.getLocation()
-    setLocation(result)
-  }
-
-  const getKey = async () => {
-    const result = await authService.getKey()
-    locationService.confKey(result.key)
+    setLocation(result.location)
   }
 
   const theme = createTheme({
