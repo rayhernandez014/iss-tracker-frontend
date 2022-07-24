@@ -48,7 +48,7 @@ const Drawer = ({ coordinates, speed, height }) => {
     color: 'primary',
     sx: {
       position: 'absolute',
-      bottom: '25vh',
+      top: 80,
       right: 16,
       zIndex: 1201
     },
