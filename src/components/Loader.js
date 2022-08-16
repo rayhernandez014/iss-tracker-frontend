@@ -4,7 +4,6 @@ import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 
 const Loader = ({ getInfo, attempts }) => {
-
   if (attempts !== 'error') {
     setTimeout(() => getInfo(), 5000)
     return (
