@@ -2,23 +2,36 @@ import { useState, useEffect } from 'react'
 import locationService from './services/location'
 import Map from './components/Map'
 import Bar from './components/Bar'
+import Loader from './components/Loader'
 import Drawer from './components/Drawer'
 import Container from '@mui/material/Container'
-import HourglassTopTwoToneIcon from '@mui/icons-material/HourglassTopTwoTone'
-import Box from '@mui/material/Box'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 function App() {
 
   const [location, setLocation] = useState(null)
+  const [attempts, setAttempts] = useState(0)
 
   useEffect( () => {
     getInfo()
   }, [])
 
   const getInfo = async () => {
-    const result = await locationService.getLocation()
-    setLocation(result.location)
+    try{
+      const result = await locationService.getLocation()
+      setLocation(result.location)
+      setAttempts(0)
+    }
+    catch (exception) {
+      if (attempts < 12) {
+        setAttempts(attempts+1)
+        setLocation(null)
+      }
+      else{
+        setAttempts('error')
+        setLocation(null)
+      }
+    }
   }
 
   const theme = createTheme({
@@ -43,16 +56,7 @@ function App() {
   else {
     return (
       <Container>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-            width: '100%'
-          }}>
-          <HourglassTopTwoToneIcon sx={{ fontSize: 200 }}/>
-        </Box>
+        <Loader attempts={attempts} getInfo={getInfo}/>
       </Container>
     )
   }
