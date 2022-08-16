@@ -17,30 +17,20 @@ function App() {
   }, [])
 
   const getInfo = async () => {
-
     try{
       const result = await locationService.getLocation()
-      if (result.location) {
-        setLocation(result.location)
-        setAttempts(0)
-      }
-      else{
-        handleError()
-      }
+      setLocation(result.location)
+      setAttempts(0)
     }
     catch (exception) {
-      handleError()
-    }
-  }
-
-  const handleError = () => {
-    if (attempts < 12) {
-      setAttempts(attempts+1)
-      setLocation(null)
-    }
-    else{
-      setAttempts('error')
-      setLocation(null)
+      if (attempts < 12) {
+        setAttempts(attempts+1)
+        setLocation(null)
+      }
+      else{
+        setAttempts('error')
+        setLocation(null)
+      }
     }
   }
 
